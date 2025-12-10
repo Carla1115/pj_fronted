@@ -48,10 +48,11 @@
         
         <img
           v-if="juego.imagen"
-          :src="juego.imagen"
+          :src="formatearImagen(juego.imagen)"
           alt="Imagen del juego"
           class="game-image"
         />
+
 
         <a 
           v-if="juego.url" 
@@ -79,6 +80,20 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import api from '../api'
+
+const backendURL = "https://pj-backend-bs1t.onrender.com";
+
+const formatearImagen = (img) => {
+  if (!img) return "";
+
+  // Si es URL externa → dejarla tal cual
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  // Si es archivo servido por el backend
+  return backendURL + img;
+};
 
 const juegos = ref([])
 const filtroNombre = ref('')
